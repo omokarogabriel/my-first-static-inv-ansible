@@ -1,0 +1,14 @@
+---
+# defaults file for webserver
+# This file contains default variables for the webserver role.
+# You can override these variables in your playbook or inventory files.
+webserver_packages:
+  - apache2
+  - git
+
+apache_service_name: apache2
+apache_service: 
+  name: "{{ apache_service_name }}"
+  state: started
+  enabled: true  
+

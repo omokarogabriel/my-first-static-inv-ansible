@@ -1,0 +1,7 @@
+---
+- name: Apply webserver role on webservers and deploy git repository
+  hosts: webservers
+  become: yes
+  roles:
+    - webserver
+    - git-repo

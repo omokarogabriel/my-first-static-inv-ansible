@@ -1,0 +1,29 @@
+---
+# tasks file for webserver
+- name: Update apt cache
+  apt:
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+
+
+  # Ensure the apt cache is updated before installing packages
+  # This task is only run on Debian-based systems
+  # such as Ubuntu, which is common for web servers.
+  # This is important to ensure that the latest package versions are available.
+  # This task is idempotent, meaning it will not run if the cache is already up to date.
+
+- name: Install web server & packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items: "{{ webserver_packages }}"
+  loop:
+    - "{{ webserver_packages }}"
+
+- name: Ensure Apache is running
+  service:
+    name: "{{ apache_service_name }}"
+
+

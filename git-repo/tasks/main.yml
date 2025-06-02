@@ -1,0 +1,65 @@
+---
+# tasks file for git-repo
+- name: Ensure git is installed
+  apt:
+    name: git
+    state: present
+  become: true
+
+# - name: Add /var/www/html/portfolio as a safe git directory
+#   become: true
+#   command: git config --global --add safe.directory /var/www/html/portfolio
+#   args:
+#     creates: /root/.gitconfig
+
+- name: Clone or update web application repo
+  git:
+    repo: '{{ my_git_repo }}'
+    dest: '{{ my_git_dest }}'
+    version: '{{ my_git_version }}'
+    update: '{{ my_git_update }}'
+    force: '{{ my_git_force }}'
+
+- name: Ensure the web application directory and contents have correct permissions
+  file:
+    path: '{{ my_git_dest }}'
+    state: directory
+    recurse: yes
+    mode: '0755'
+    owner: ubuntu
+    group: ubuntu
+  become: true
+
+- name: Move contents from portfolio to html
+  shell: mv {{ my_git_dest }}/* {{ my_new_dest }}
+  args:
+    removes: '{{ my_git_dest }}'
+  become: true
+
+
+- name: Remove empty portfolio directory
+  file:
+    path: '{{ my_git_dest }}'
+    state: absent
+  become: true
+
+
+# version	Meaning
+# version: master	Checkout the master branch
+# version: main	Checkout the main branch (new default in GitHub)
+# version: dev	Checkout the dev branch
+# version: v1.0.0	Checkout a specific tag or release version
+# version: abc123	Checkout a specific commit by SHA hash
+
+# recurse: yes in file module ensures all files/subdirs inside get the right permissions.
+
+# update: yes on git ensures it pulls updates if repo already exists.
+
+# force: yes lets git overwrite local changes if needed.
+
+# run it like this:
+# ansible-playbook -i inventory.ini site.yml
+# To run the playbook, navigate to the directory containing your Ansible project and execute the following command:
+# Navigate to your Ansible project directory
+# cd /home/omokaro/Desktop/Ansible_Projects/project1
+# ansible-playbook -i inventory.ini site.yml

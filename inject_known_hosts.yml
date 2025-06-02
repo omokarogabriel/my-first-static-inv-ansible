@@ -1,0 +1,10 @@
+- name: Securely inject EC2 SSH host keys into known_hosts
+  hosts: webservers
+  gather_facts: false
+  tasks:
+    - name: Add server to known_hosts
+      ansible.builtin.known_hosts:
+        path: "~/.ssh/known_hosts"
+        name: "{{ inventory_hostname }}"
+        key: "{{ lookup('pipe', 'ssh-keyscan -H ' + inventory_hostname) }}"
+      delegate_to: localhost

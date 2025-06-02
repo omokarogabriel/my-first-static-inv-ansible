@@ -1,0 +1,8 @@
+---
+# defaults file for git-repo
+my_git_repo: 'https://github.com/omokarogabriel/portfolio.git'
+my_git_dest: '/var/www/html/portfolio'
+my_git_version: 'main'
+my_git_update: yes
+my_git_force: yes
+my_new_dest: '/var/www/html'
