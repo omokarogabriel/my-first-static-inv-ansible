@@ -1,9 +1,9 @@
 webservers:
   hosts:
-    3.86.224.114:
+    52.55.87.205:
       ansible_user: ubuntu
       ansible_ssh_private_key_file: /home/omokaro/AwsKey
 
-    54.152.31.65:
+    52.90.76.179:
       ansible_user: ubuntu
       ansible_ssh_private_key_file: /home/omokaro/AwsKey
